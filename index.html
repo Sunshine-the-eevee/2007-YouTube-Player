@@ -14,9 +14,29 @@
       width: 100vw;
       height: 100vh;
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       display: flex;
       flex-direction: column;
+    }
+
+    /* In fullscreen, the bottom-bar should also stretch full width */
+    .player-container:fullscreen {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column; /* video-area on top, bottom-bar at bottom */
+    }
+
+    .player-container:fullscreen .bottom-bar {
+      /* Bottom bar stays at bottom in normal flow */
+      flex-shrink: 0; /* has a fixed height of 31px */
+    }
+
+    /* In fullscreen, let bottom-bar span entire width */
+    .player-container:fullscreen .bottom-bar {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8); /* Ensuring background is visible */
     }
   </style>
 </head>
