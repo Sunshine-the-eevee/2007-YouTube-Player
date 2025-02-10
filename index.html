@@ -7,10 +7,14 @@
 <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-
+  <!-- Custom MP4 Input -->
+  <div class="video-url-input">
+    <input type="text" id="MyVideo" placeholder="Enter MP4 URL or file path">
+    <button onclick="changeVideo()">Load Video</button>
+  </div>
 <div class="player-container">
   <div class="video-area">
-    <video id="myVideo" preload="metadata" src="https://erickrouss.github.io/2007-YouTube-Player-HTML5/video/numanuma.mp4"></video>
+    <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4"></video>
     <div id="loadingIndicator"></div>
     <!-- Add the ended buttons overlay here -->
     <div class="ended-buttons" id="endedButtons">
