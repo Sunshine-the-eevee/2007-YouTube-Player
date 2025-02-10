@@ -185,26 +185,26 @@
 //    });
 
     // Volume Slider Control
-  //  volumeHandle.addEventListener('mousedown', function (e) {
-  //    let isVolumeDragging = true;
-  //    const volumeTrack = document.getElementById('volumeTrack');
+    volumeHandle.addEventListener('mousedown', function (e) {
+      let isVolumeDragging = true;
+      const volumeTrack = document.getElementById('volumeTrack');
 
-  //    document.addEventListener('mousemove', function (e) {
-  //      if (isVolumeDragging) {
-  //        const volumeTrackRect = volumeTrack.getBoundingClientRect();
-  //        const volumeOffsetX = e.clientX - volumeTrackRect.left;
-  //        const volumePercentage = Math.min(Math.max(0, volumeOffsetX), volumeTrackRect.width) / volumeTrackRect.width;
-  //        video.volume = volumePercentage; // Adjust volume
+      document.addEventListener('mousemove', function (e) {
+        if (isVolumeDragging) {
+          const volumeTrackRect = volumeTrack.getBoundingClientRect();
+          const volumeOffsetX = e.clientX - volumeTrackRect.left;
+          const volumePercentage = Math.min(Math.max(0, volumeOffsetX), volumeTrackRect.width) / volumeTrackRect.width;
+          video.volume = volumePercentage; // Adjust volume
 
           // Move the volume handle
- //         volumeHandle.style.left = `${volumePercentage * 100}%`;
- //       }
- //     });
+          volumeHandle.style.left = `${volumePercentage * 100}%`;
+        }
+      });
 
- //     document.addEventListener('mouseup', function () {
- //       isVolumeDragging = false;
- //     });
- //   });
+      document.addEventListener('mouseup', function () {
+        isVolumeDragging = false;
+      });
+    });
 
     // Rewind Button (Jump to Start)
     rewindBtn.addEventListener('click', function () {
@@ -213,13 +213,13 @@
     });
 
     // Fullscreen Button Toggle (No Animation)
-//    fullscreenBtn.addEventListener('click', function () {
-  //    if (!document.fullscreenElement) {
-    //    document.documentElement.requestFullscreen();
-      //} else {
-        //document.exitFullscreen();
-      //}
-    //});
+    fullscreenBtn.addEventListener('click', function () {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    });
   </script>
 
 </body>
