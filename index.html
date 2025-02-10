@@ -173,16 +173,18 @@
       endedButtons.style.display = 'none';
     });
 
-    // Mute/Unmute Volume Button with Icon Change
-    //volumeBtn.addEventListener('click', function () {
-      //if (video.muted) {
-        //video.muted = false;
-        //volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_4.png")';
-      //} else {
-        //video.muted = true;
-        // volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_muted.png")';
-//      }
-//    });
+     Mute/Unmute Volume Button with Icon Change
+    volumeBtn.addEventListener('click', function () {
+      if (video.muted) {
+        video.muted = false;
+        volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_4.png")';
+      } else {
+        video.muted = true;
+         volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_4.png")';
+         volumeBtn.style.filter = 'grayscale(100%)';
+         volumeBtn.style.opacity = '0.7';
+      }
+    });
 
     // Volume Slider Control
     volumeHandle.addEventListener('mousedown', function (e) {
@@ -215,7 +217,7 @@
     // Fullscreen Button Toggle (No Animation)
     fullscreenBtn.addEventListener('click', function () {
       if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
+        playerContainer.requestFullscreen();
       } else {
         document.exitFullscreen();
       }
