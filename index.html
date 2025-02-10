@@ -178,15 +178,21 @@
       if (video.muted) {
         video.muted = false;
         volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_4.png")';
+        volumeBtn.style.filter = 'none'; // Remove grayscale when unmuted
+        volumeBtn.style.opacity = '1'; // Reset opacity
+        // Set the slider to the current volume
+        volumeHandle.style.left = `${video.volume * 100}%`;
       } else {
         video.muted = true;
-         volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_4.png")';
-         volumeBtn.style.filter = 'grayscale(100%)';
-         volumeBtn.style.opacity = '0.7';
+        volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_4.png")';
+        volumeBtn.style.filter = 'grayscale(100%)';
+        volumeBtn.style.opacity = '0.7';
+        // Set the slider to the left when muted
+        volumeHandle.style.left = '0%';
       }
     });
 
-    // Volume Slider Control
+    // Volume Slider Control (Reflects actual volume state)
     volumeHandle.addEventListener('mousedown', function (e) {
       let isVolumeDragging = true;
       const volumeTrack = document.getElementById('volumeTrack');
@@ -217,9 +223,19 @@
     // Fullscreen Button Toggle (No Animation)
     fullscreenBtn.addEventListener('click', function () {
       if (!document.fullscreenElement) {
-        playerContainer.requestFullscreen();
+        document.playerContainer.requestFullscreen();
       } else {
         document.exitFullscreen();
+      }
+    });
+
+    // Ensure volume slider matches video volume state on page load or when it's reset
+    document.addEventListener('DOMContentLoaded', function () {
+      // Set the initial volume position based on the video volume state
+      if (!video.muted) {
+        volumeHandle.style.left = `${video.volume * 100}%`;
+      } else {
+        volumeHandle.style.left = '0%';
       }
     });
   </script>
