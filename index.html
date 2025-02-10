@@ -1,4 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>2007-Style YouTube Player</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <!-- Custom MP4 Input -->
+  <div class="video-url-input">
+    <input type="text" id="MyVideo" placeholder="Enter MP4 URL or file path">
+    <button onclick="changeVideo()">Load Video</button>
+  </div>
+
+  <div class="player-container">
+    <div class="video-area">
+      <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4" controls></video>
+      <div id="loadingIndicator"></div>
+      <!-- Add the ended buttons overlay here -->
+      <div class="ended-buttons" id="endedButtons">
+        <button class="share-btn" id="shareBtn" title="Share"></button>
+        <button class="watch-again-btn" id="watchAgainBtn" title="Watch Again"></button>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <div class="bar-left"></div>
+      <div class="bar-center"></div>
+      <div class="bar-right"></div>
+
+      <div class="controls-bar">
+        <div class="left-controls">
+          <button class="control-button pause-btn" id="playPauseBtn"></button>
+          <button class="control-button rewind-btn" id="rewindBtn"></button>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-background"></div>
+          <div class="progress-loaded" id="progressLoaded"></div>
+          <div class="progress-red" id="progressRed"></div>
+          <div class="progress-handle" id="progressHandle"></div>
+        </div>
+
+        <div class="right-controls">
+          <div class="time-section">
+            <div class="time-box">
+              <span class="time-current" id="timeCurrent">00:00</span>
+              <span class="time-sep"> / </span>
+              <span class="time-total" id="timeTotal">0:00</span>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="volume-section">
+            <div class="volume-track" id="volumeTrack">
+              <div class="volume-level" id="volumeLevel"></div>
+              <div class="volume-handle" id="volumeHandle"></div>
+            </div>
+            <button class="control-button volume-btn" id="volumeBtn" title="Volume"></button>
+          </div>
+          <div class="divider"></div>
+          <button class="control-button fullscreen-btn" id="fullscreenBtn" title="Fullscreen"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script>
+  // Video Element
+  const video = document.getElementById('myVideo');
+
+  // Custom MP4 URL Load
+  function changeVideo() {
+    const videoUrl = document.getElementById('MyVideo').value;
+    video.src = videoUrl;
+    video.load();
+    video.play(); // Optional: Play video after loading
+  }
+
   // Progress Bar Updates (timeupdate event)
   video.addEventListener('timeupdate', function () {
     const currentTime = video.currentTime;
@@ -71,3 +149,6 @@
   });
 
 </script>
+
+</body>
+</html>
