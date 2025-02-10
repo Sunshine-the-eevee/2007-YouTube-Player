@@ -80,6 +80,7 @@
     const watchAgainBtn = document.getElementById('watchAgainBtn');
     const volumeBtn = document.getElementById('volumeBtn');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const volumeHandle = document.getElementById('volumeHandle');
 
     // Video Controls
     video.controls = false; // Disable default controls
@@ -126,7 +127,7 @@
       }
     });
 
-    // Scrubber (Progress Handle) Dragging
+    // Progress Bar (Scrubber) Dragging
     let isDragging = false;
     progressHandle.addEventListener('mousedown', function (e) {
       isDragging = true;
@@ -170,30 +171,47 @@
       endedButtons.style.display = 'none';
     });
 
-    // Volume Control
+    // Mute/Unmute Volume Button with Icon Change
     volumeBtn.addEventListener('click', function () {
       if (video.muted) {
         video.muted = false;
-        volumeBtn.classList.remove('muted');
-        volumeBtn.classList.add('unmuted');
+        volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_4.png")';
       } else {
         video.muted = true;
-        volumeBtn.classList.remove('unmuted');
-        volumeBtn.classList.add('muted');
+        volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_muted.png")';
       }
     });
 
-    // Fullscreen Button
+    // Volume Slider Control
+    volumeHandle.addEventListener('mousedown', function (e) {
+      let isVolumeDragging = true;
+      const volumeTrack = document.getElementById('volumeTrack');
+
+      document.addEventListener('mousemove', function (e) {
+        if (isVolumeDragging) {
+          const volumeTrackRect = volumeTrack.getBoundingClientRect();
+          const volumeOffsetX = e.clientX - volumeTrackRect.left;
+          const volumePercentage = Math.min(Math.max(0, volumeOffsetX), volumeTrackRect.width) / volumeTrackRect.width;
+          video.volume = volumePercentage; // Adjust volume
+
+          // Move the volume handle
+          volumeHandle.style.left = `${volumePercentage * 100}%`;
+        }
+      });
+
+      document.addEventListener('mouseup', function () {
+        isVolumeDragging = false;
+      });
+    });
+
+    // Fullscreen Button Toggle (No Animation)
     fullscreenBtn.addEventListener('click', function () {
-      if (video.requestFullscreen) {
-        video.requestFullscreen();
-      } else if (video.mozRequestFullScreen) {
-        video.mozRequestFullScreen();
-      } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
       }
     });
-
   </script>
 
 </body>
