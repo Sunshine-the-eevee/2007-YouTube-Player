@@ -78,6 +78,8 @@
     const endedButtons = document.getElementById('endedButtons');
     const shareBtn = document.getElementById('shareBtn');
     const watchAgainBtn = document.getElementById('watchAgainBtn');
+    const volumeBtn = document.getElementById('volumeBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
 
     // Video Controls
     video.controls = false; // Disable default controls
@@ -92,14 +94,20 @@
       }
     }
 
-    // Play/Pause Button
-    playPauseBtn.addEventListener('click', function () {
+    // Play/Pause Button Toggle
+    function togglePlayPause() {
       if (video.paused) {
         video.play();
+        playPauseBtn.classList.add('playing');
+        playPauseBtn.classList.remove('paused');
       } else {
         video.pause();
+        playPauseBtn.classList.add('paused');
+        playPauseBtn.classList.remove('playing');
       }
-    });
+    }
+
+    playPauseBtn.addEventListener('click', togglePlayPause);
 
     // Progress Bar Updates (timeupdate event)
     video.addEventListener('timeupdate', function () {
@@ -123,12 +131,14 @@
     progressHandle.addEventListener('mousedown', function (e) {
       isDragging = true;
       document.body.style.cursor = 'pointer';
+      video.pause(); // Pause on scrubber drag
     });
 
     document.addEventListener('mouseup', function () {
       if (isDragging) {
         isDragging = false;
         document.body.style.cursor = 'default';
+        video.play(); // Resume after scrubbing
       }
     });
 
@@ -160,17 +170,21 @@
       endedButtons.style.display = 'none';
     });
 
-    // Volume Control Placeholder
-    document.getElementById('volumeBtn').addEventListener('click', function () {
+    // Volume Control
+    volumeBtn.addEventListener('click', function () {
       if (video.muted) {
         video.muted = false;
+        volumeBtn.classList.remove('muted');
+        volumeBtn.classList.add('unmuted');
       } else {
         video.muted = true;
+        volumeBtn.classList.remove('unmuted');
+        volumeBtn.classList.add('muted');
       }
     });
 
-    // Fullscreen Button (Optional)
-    document.getElementById('fullscreenBtn').addEventListener('click', function () {
+    // Fullscreen Button
+    fullscreenBtn.addEventListener('click', function () {
       if (video.requestFullscreen) {
         video.requestFullscreen();
       } else if (video.mozRequestFullScreen) {
