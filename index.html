@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>2007-Style YouTube Player</title>
   <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* Fullscreen mode fills screen */ 
+    .player-container:fullscreen,
+    .player-container:-webkit-full-screen,
+    .player-container:-moz-full-screen,
+    .player-container:-ms-fullscreen {
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
 </head>
 <body>
 
@@ -222,8 +236,9 @@
 
     // Fullscreen Button Toggle (No Animation)
     fullscreenBtn.addEventListener('click', function () {
+      const playerContainer = document.querySelector('.player-container');
       if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
+        playerContainer.requestFullscreen();
       } else {
         document.exitFullscreen();
       }
