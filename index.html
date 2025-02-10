@@ -9,14 +9,14 @@
 <body>
   <!-- Custom MP4 Input -->
   <div class="video-url-input">
-    <input type="text" id="MyVideo" placeholder="Enter MP4 URL or file path">
+    <input type="text" id="MyVideo" placeholder="Enter MP4 URL or file path (youtube links wont work, URL has to end with .mp4 to work!)">
     <button onclick="document.getElementById('myVideo').src = document.getElementById('MyVideo').value; document.getElementById('myVideo').load(); document.getElementById('myVideo').play();">Load Video</button>
   </div>
 
   <div class="player-container">
     <div class="video-area">
-      <!-- Video element with controls initially hidden -->
-      <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4" controls="false" style="visibility: hidden;"></video>
+      <!-- Video element with controls disabled, but still visible -->
+      <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4" controls="false"></video>
       <div id="loadingIndicator"></div>
 
       <!-- Ended Buttons Overlay -->
@@ -74,8 +74,7 @@
     const video = document.getElementById('myVideo');
     video.oncanplay = function () {
       // Show the custom controls when the video is ready
-      video.style.visibility = 'visible';
-      video.controls = false;  // Disable default controls once the video is loaded
+      video.controls = false;  // Disable default controls
     };
 
     // Play/Pause Button Toggle
