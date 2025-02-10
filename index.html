@@ -5,18 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>2007-Style YouTube Player</title>
   <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* Hide default controls */
+    #myVideo::-webkit-media-controls {
+      display: none !important;
+    }
+    #myVideo::-webkit-media-controls-enclosure {
+      display: none !important;
+    }
+    #myVideo::-webkit-media-controls-panel {
+      display: none !important;
+    }
+
+    /* Other browsers (Firefox, etc.) */
+    #myVideo {
+      pointer-events: none; /* This disables interactions with the default controls */
+    }
+  </style>
 </head>
 <body>
   <!-- Custom MP4 Input -->
   <div class="video-url-input">
-    <input type="text" id="MyVideo" placeholder="Enter MP4 URL or file path (youtube links wont work, URL has to end with .mp4 to work!)">
+    <input type="text" id="MyVideo" placeholder="Enter MP4 URL or file path">
     <button onclick="document.getElementById('myVideo').src = document.getElementById('MyVideo').value; document.getElementById('myVideo').load(); document.getElementById('myVideo').play();">Load Video</button>
   </div>
 
   <div class="player-container">
     <div class="video-area">
-      <!-- Video element with controls disabled, but still visible -->
-      <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4" controls="false"></video>
+      <!-- Video element -->
+      <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4"></video>
       <div id="loadingIndicator"></div>
 
       <!-- Ended Buttons Overlay -->
