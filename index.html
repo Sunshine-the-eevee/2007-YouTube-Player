@@ -10,13 +10,13 @@
   <!-- Custom MP4 Input -->
   <div class="video-url-input">
     <input type="text" id="MyVideo" placeholder="Enter MP4 URL or file path">
-    <button onclick="changeVideo()">Load Video</button>
+    <button onclick="document.getElementById('myVideo').src = document.getElementById('MyVideo').value; document.getElementById('myVideo').load(); document.getElementById('myVideo').play();">Load Video</button>
   </div>
 
   <div class="player-container">
     <div class="video-area">
-      <!-- Video element -->
-      <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4" controls></video>
+      <!-- Video element with controls initially hidden -->
+      <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4" controls="false" style="visibility: hidden;"></video>
       <div id="loadingIndicator"></div>
 
       <!-- Ended Buttons Overlay -->
@@ -70,21 +70,16 @@
   <script src="script.js"></script>
 
   <script>
-    // Change the video source to the user-input URL
-    function changeVideo() {
-      const videoUrl = document.getElementById('MyVideo').value;
-      const videoElement = document.getElementById('myVideo');
-
-      if (videoUrl) {
-        videoElement.src = videoUrl;  // Change the video source
-        videoElement.load();           // Load the new video
-        videoElement.play();           // Play the new video
-      }
-    }
+    // When the video element is ready, remove the default controls and show the custom controls
+    const video = document.getElementById('myVideo');
+    video.oncanplay = function () {
+      // Show the custom controls when the video is ready
+      video.style.visibility = 'visible';
+      video.controls = false;  // Disable default controls once the video is loaded
+    };
 
     // Play/Pause Button Toggle
     const playPauseBtn = document.getElementById('playPauseBtn');
-    const video = document.getElementById('myVideo');
     playPauseBtn.addEventListener('click', function () {
       if (video.paused) {
         video.play();
