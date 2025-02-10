@@ -1,190 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>2007-Style YouTube Player</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <style>
-    /* Hide default controls */
-    #myVideo::-webkit-media-controls {
-      display: none !important;
+<script>
+  // Progress Bar Updates (timeupdate event)
+  video.addEventListener('timeupdate', function () {
+    const currentTime = video.currentTime;
+    const duration = video.duration;
+
+    if (duration) {
+      const progress = (currentTime / duration) * 100;
+      document.getElementById('progressRed').style.width = `${progress}%`;
+
+      // Update time display
+      const minutes = Math.floor(currentTime / 60);
+      const seconds = Math.floor(currentTime % 60);
+      document.getElementById('timeCurrent').textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      document.getElementById('timeTotal').textContent = `${Math.floor(duration / 60)}:${Math.floor(duration % 60)}`;
     }
-    #myVideo::-webkit-media-controls-enclosure {
-      display: none !important;
+  });
+
+  // Scrubber (Progress Handle) Dragging
+  const progressHandle = document.getElementById('progressHandle');
+  const progressBar = document.querySelector('.progress-section');
+
+  let isDragging = false;
+  progressHandle.addEventListener('mousedown', function (e) {
+    isDragging = true;
+    document.body.style.cursor = 'pointer';
+  });
+
+  document.addEventListener('mouseup', function () {
+    if (isDragging) {
+      isDragging = false;
+      document.body.style.cursor = 'default';
     }
-    #myVideo::-webkit-media-controls-panel {
-      display: none !important;
-    }
+  });
 
-    /* Other browsers (Firefox, etc.) */
-    #myVideo {
-      pointer-events: none; /* This disables interactions with the default controls */
-    }
-  </style>
-</head>
-<body>
-  <!-- Custom MP4 Input -->
-  <div class="video-url-input">
-    <input type="text" id="MyVideo" placeholder="Enter MP4 URL or file path">
-    <button onclick="document.getElementById('myVideo').src = document.getElementById('MyVideo').value; document.getElementById('myVideo').load(); document.getElementById('myVideo').play();">Load Video</button>
-  </div>
-
-  <div class="player-container">
-    <div class="video-area">
-      <!-- Video element -->
-      <video id="myVideo" preload="metadata" src="https://hcdn.sys42.net/attachments/1331877417480647517/1332108009457875881/ae.mp4"></video>
-      <div id="loadingIndicator"></div>
-
-      <!-- Ended Buttons Overlay -->
-      <div class="ended-buttons" id="endedButtons" style="display: none;">
-        <button class="share-btn" id="shareBtn" title="Share"></button>
-        <button class="watch-again-btn" id="watchAgainBtn" title="Watch Again"></button>
-      </div>
-    </div>
-
-    <div class="bottom-bar">
-      <div class="bar-left"></div>
-      <div class="bar-center"></div>
-      <div class="bar-right"></div>
-
-      <div class="controls-bar">
-        <div class="left-controls">
-          <button class="control-button pause-btn" id="playPauseBtn"></button>
-          <button class="control-button rewind-btn" id="rewindBtn"></button>
-        </div>
-
-        <div class="progress-section">
-          <div class="progress-background"></div>
-          <div class="progress-loaded" id="progressLoaded"></div>
-          <div class="progress-red" id="progressRed"></div>
-          <div class="progress-handle" id="progressHandle"></div>
-        </div>
-
-        <div class="right-controls">
-          <div class="time-section">
-            <div class="time-box">
-              <span class="time-current" id="timeCurrent">00:00</span>
-              <span class="time-sep"> / </span>
-              <span class="time-total" id="timeTotal">0:00</span>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <div class="volume-section">
-            <div class="volume-track" id="volumeTrack">
-              <div class="volume-level" id="volumeLevel"></div>
-              <div class="volume-handle" id="volumeHandle"></div>
-            </div>
-            <button class="control-button volume-btn" id="volumeBtn" title="Volume"></button>
-          </div>
-          <div class="divider"></div>
-          <button class="control-button fullscreen-btn" id="fullscreenBtn" title="Fullscreen"></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-
-  <script>
-    // When the video element is ready, remove the default controls and show the custom controls
-    const video = document.getElementById('myVideo');
-    video.oncanplay = function () {
-      // Show the custom controls when the video is ready
-      video.controls = false;  // Disable default controls
-    };
-
-    // Play/Pause Button Toggle
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    playPauseBtn.addEventListener('click', function () {
-      if (video.paused) {
-        video.play();
-        playPauseBtn.classList.add('playing');
-      } else {
-        video.pause();
-        playPauseBtn.classList.remove('playing');
-      }
-    });
-
-    // Mute/Unmute Volume
-    const volumeBtn = document.getElementById('volumeBtn');
-    volumeBtn.addEventListener('click', function () {
-      if (video.muted) {
-        video.muted = false;
-        volumeBtn.style.backgroundImage = 'url("https://erickrouss.github.io/2007-YouTube-Player-HTML5/assets/volume/volume_icon_4.png")';
-      } else {
-        video.muted = true;
-        volumeBtn.style.backgroundImage = 'url("https://erickrouss.github.io/2007-YouTube-Player-HTML5/assets/volume/volume_icon_muted.png")';
-      }
-    });
-
-    // Fullscreen Toggle
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
-    fullscreenBtn.addEventListener('click', function () {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-      } else {
-        document.exitFullscreen();
-      }
-    });
-
-    // Progress Bar Updates
-    video.addEventListener('timeupdate', function () {
-      const currentTime = video.currentTime;
-      const duration = video.duration;
-
-      if (duration) {
-        const progress = (currentTime / duration) * 100;
-        document.getElementById('progressRed').style.width = `${progress}%`;
-
-        // Update time display
-        const minutes = Math.floor(currentTime / 60);
-        const seconds = Math.floor(currentTime % 60);
-        document.getElementById('timeCurrent').textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-        document.getElementById('timeTotal').textContent = `${Math.floor(duration / 60)}:${Math.floor(duration % 60)}`;
-      }
-    });
-
-    // Scrubber (Progress Handle) Dragging
-    const progressHandle = document.getElementById('progressHandle');
-    const progressBar = document.querySelector('.progress-section');
-
-    let isDragging = false;
-    progressHandle.addEventListener('mousedown', function (e) {
-      isDragging = true;
-      document.body.style.cursor = 'pointer';
-    });
-
-    document.addEventListener('mouseup', function () {
-      if (isDragging) {
-        isDragging = false;
-        document.body.style.cursor = 'default';
-      }
-    });
-
-    progressBar.addEventListener('mousemove', function (e) {
-      if (isDragging) {
-        const progressBarRect = progressBar.getBoundingClientRect();
-        const offsetX = e.clientX - progressBarRect.left;
-        const progress = Math.min(Math.max(0, offsetX), progressBarRect.width);
-        const percentage = (progress / progressBarRect.width) * 100;
-
-        progressHandle.style.left = `${percentage - 5}%`;
-        document.getElementById('progressRed').style.width = `${percentage}%`;
-
-        // Update video current time
-        video.currentTime = (percentage / 100) * video.duration;
-      }
-    });
-
-    progressBar.addEventListener('click', function (e) {
+  progressBar.addEventListener('mousemove', function (e) {
+    if (isDragging) {
       const progressBarRect = progressBar.getBoundingClientRect();
       const offsetX = e.clientX - progressBarRect.left;
       const progress = Math.min(Math.max(0, offsetX), progressBarRect.width);
       const percentage = (progress / progressBarRect.width) * 100;
-      video.currentTime = (percentage / 100) * video.duration;
-    });
-  </script>
 
-</body>
-</html>
+      // Move the scrubber handle visually
+      progressHandle.style.left = `${percentage - 5}%`; // Adjust for the center position of the handle
+      document.getElementById('progressRed').style.width = `${percentage}%`;
+
+      // Update video current time
+      video.currentTime = (percentage / 100) * video.duration;
+    }
+  });
+
+  // Progress Bar Click (Direct Seek)
+  progressBar.addEventListener('click', function (e) {
+    const progressBarRect = progressBar.getBoundingClientRect();
+    const offsetX = e.clientX - progressBarRect.left;
+    const progress = Math.min(Math.max(0, offsetX), progressBarRect.width);
+    const percentage = (progress / progressBarRect.width) * 100;
+
+    // Update video current time based on where clicked
+    video.currentTime = (percentage / 100) * video.duration;
+  });
+
+  // Ensuring smooth seeking behavior: Listen to the 'seeking' and 'seeked' events
+  video.addEventListener('seeking', function () {
+    console.log('Seeking to:', video.currentTime);
+  });
+
+  video.addEventListener('seeked', function () {
+    console.log('Seeked to:', video.currentTime);
+    video.play(); // Ensure the video starts playing after seeking
+  });
+
+</script>
