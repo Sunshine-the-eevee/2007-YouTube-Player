@@ -223,7 +223,7 @@
     // Fullscreen Button Toggle (No Animation)
     fullscreenBtn.addEventListener('click', function () {
       if (!document.fullscreenElement) {
-        document.fullscreenElement.requestFullscreen();
+        document.documentElement.requestFullscreen();
       } else {
         document.exitFullscreen();
       }
