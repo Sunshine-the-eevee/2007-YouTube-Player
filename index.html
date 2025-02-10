@@ -81,6 +81,7 @@
     const volumeBtn = document.getElementById('volumeBtn');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     const volumeHandle = document.getElementById('volumeHandle');
+    const rewindBtn = document.getElementById('rewindBtn');
 
     // Video Controls
     video.controls = false; // Disable default controls
@@ -118,6 +119,7 @@
       if (duration) {
         const progress = (currentTime / duration) * 100;
         progressRed.style.width = `${progress}%`;
+        progressHandle.style.left = `${progress}%`; // Scrubber follows progress
 
         // Update time display
         const minutes = Math.floor(currentTime / 60);
@@ -175,10 +177,10 @@
     volumeBtn.addEventListener('click', function () {
       if (video.muted) {
         video.muted = false;
-        volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_4.png")';
+        volumeBtn.style.backgroundImage = 'url("https://erickrouss.github.io/2007-YouTube-Player-HTML5/volume_icon_4.png")';
       } else {
         video.muted = true;
-        volumeBtn.style.backgroundImage = 'url("https://sunshine-the-eevee.github.io/2007-YouTube-Player/assets/volume/volume_icon_muted.png")';
+        volumeBtn.style.backgroundImage = 'url("https://erickrouss.github.io/2007-YouTube-Player-HTML5/volume_icon_muted.png")';
       }
     });
 
@@ -202,6 +204,12 @@
       document.addEventListener('mouseup', function () {
         isVolumeDragging = false;
       });
+    });
+
+    // Rewind Button (Jump to Start)
+    rewindBtn.addEventListener('click', function () {
+      video.currentTime = 0; // Rewind video to start
+      video.play();
     });
 
     // Fullscreen Button Toggle (No Animation)
