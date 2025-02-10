@@ -6,7 +6,7 @@
   <title>2007-Style YouTube Player</title>
   <link rel="stylesheet" href="styles.css"/>
   <style>
-    /* Fullscreen mode fills screen */ 
+    /* Fullscreen mode fills screen */
     .player-container:fullscreen,
     .player-container:-webkit-full-screen,
     .player-container:-moz-full-screen,
@@ -29,14 +29,52 @@
     }
 
     .player-container:fullscreen .bottom-bar {
-      /* Bottom bar stays at bottom in normal flow */
-      flex-shrink: 0; /* has a fixed height of 31px */
+      flex-shrink: 0; /* Ensures bottom-bar stays at bottom */
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8); /* Ensure background visibility */
     }
 
-    /* In fullscreen, let bottom-bar span entire width */
-    .player-container:fullscreen .bottom-bar {
+    /* Make sure controls stretch properly in fullscreen */
+    .player-container:fullscreen .controls-bar,
+    .player-container:-webkit-full-screen .controls-bar,
+    .player-container:-moz-full-screen .controls-bar,
+    .player-container:-ms-fullscreen .controls-bar {
       width: 100%;
-      background: rgba(0, 0, 0, 0.8); /* Ensuring background is visible */
+    }
+
+    /* Video area adjustments for fullscreen */
+    .video-area {
+      width: 100%;
+      height: 100%;
+      min-width: 480px;
+      min-height: 360px;
+      flex: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      background: #000; 
+    }
+
+    .video-area video {
+      background-color: #000;
+      min-width: 100%;
+      min-height: auto;
+    }
+
+    .video-area:fullscreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-area:fullscreen video {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
   </style>
 </head>
